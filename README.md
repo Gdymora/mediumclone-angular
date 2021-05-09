@@ -2,6 +2,13 @@
 ├─ node_modules/
 ├─ src/
       /app
+        /auth
+         /components
+          /register
+            register.component.html
+            register.component.scss
+            register-routing.module.ts
+        auth.module.ts
         /article
           /article
             article.component.html

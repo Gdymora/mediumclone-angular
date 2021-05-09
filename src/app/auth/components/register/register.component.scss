@@ -1,0 +1,23 @@
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.container.page {
+  margin-top: 1.5rem;
+}
+
+.text-xs-center {
+  text-align: center!important;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
