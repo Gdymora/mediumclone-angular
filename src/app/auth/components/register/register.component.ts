@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Store, select } from '@ngrx/store'
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 
-import { Observable } from 'rxjs'
-import { registerAction } from 'src/app/auth/store/actions'
-import { isSubmittingSelector } from 'src/app/auth/store/selectors'
-import { AuthService } from 'src/app/auth/services/auth.service'
+import { Observable } from 'rxjs';
+import { registerAction } from 'src/app/auth/store/actions';
+import { isSubmittingSelector } from 'src/app/auth/store/selectors';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { RegisterRequestInterface } from 'src/app/auth/types/registerRequest.interface';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -14,7 +16,11 @@ import { AuthService } from 'src/app/auth/services/auth.service'
 export class RegisterComponent implements OnInit {
   form!: FormGroup;
   isSubmitting$?: Observable<boolean>;
-  constructor(private fb: FormBuilder, private store: Store, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -27,16 +33,19 @@ export class RegisterComponent implements OnInit {
 
   initializeForm(): void {
     this.form = this.fb.group({
-      userName: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
   onSubmit(): void {
-    console.log(this.form.valid)
-    this.store.dispatch(registerAction(this.form.value))
-    this.authService.register(this.form.value).subscribe
+    console.log('submit', this.form.value, this.form.valid);
+
+    const request: RegisterRequestInterface = {
+      user: this.form.value,
+    };
+    this.store.dispatch(registerAction({ request }));
   }
 
   get userName() {
