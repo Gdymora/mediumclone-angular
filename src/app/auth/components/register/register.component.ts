@@ -1,58 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import {Component, OnInit} from '@angular/core'
+import {FormGroup, FormBuilder, Validators} from '@angular/forms'
+import {Store, select} from '@ngrx/store'
+import {Observable} from 'rxjs'
 
-import { Observable } from 'rxjs';
-import { registerAction } from 'src/app/auth/store/actions';
-import { isSubmittingSelector } from 'src/app/auth/store/selectors';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { RegisterRequestInterface } from 'src/app/auth/types/registerRequest.interface';
+import {registerAction} from 'src/app/auth/store/actions/register.action'
+import {
+  isSubmittingSelector,
+  validationErrorsSelector
+} from 'src/app/auth/store/selectors'
+import {RegisterRequestInterface} from 'src/app/auth/types/registerRequest.interface'
+import {BackendErrorsInterface} from 'src/app/shared/types/backendErrors.interface'
 
 @Component({
-  selector: 'app-register',
+  selector: 'mc-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  form!: FormGroup;
-  isSubmitting$?: Observable<boolean>;
-  constructor(
-    private fb: FormBuilder,
-    private store: Store,
-    private authService: AuthService
-  ) {}
+  form!: FormGroup
+  isSubmitting$?: Observable<boolean>
+  backendErrors$: Observable<BackendErrorsInterface | null>
+
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    this.initializeForm();
-    this.initializeValues();
+    this.initializeForm()
+    this.initializeValues()
   }
 
   initializeValues(): void {
-    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
+    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+    this.backendErrors$ = this.store.pipe(select(validationErrorsSelector))
   }
 
   initializeForm(): void {
+    console.log('initializeForm')
     this.form = this.fb.group({
-      username: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-    });
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    })
   }
 
   onSubmit(): void {
-    console.log('submit', this.form.value, this.form.valid);
-
+    console.log('submit', this.form.value, this.form.valid)
     const request: RegisterRequestInterface = {
-      user: this.form.value,
-    };
-    this.store.dispatch(registerAction({ request }));
-  }
-
-  get userName() {
-    return this.form.get('userName');
-  }
-
-  get email() {
-    return this.form.get('email');
+      user: this.form.value
+    }
+    this.store.dispatch(registerAction({request}))
   }
 }
