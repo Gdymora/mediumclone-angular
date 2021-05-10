@@ -1,17 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Store, select } from '@ngrx/store'
 
+import { Observable } from 'rxjs'
+import { registerAction } from 'src/app/auth/store/actions'
+import { isSubmittingSelector } from 'src/app/auth/store/selectors'
+import { AuthService } from 'src/app/auth/services/auth.service'
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  form: any;
-  constructor(private fb: FormBuilder) {}
+  form!: FormGroup;
+  isSubmitting$?: Observable<boolean>;
+  constructor(private fb: FormBuilder, private store: Store, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.initializeValues();
+  }
+
+  initializeValues(): void {
+    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
   }
 
   initializeForm(): void {
@@ -23,7 +34,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.form.valid());
+    console.log(this.form.valid)
+    this.store.dispatch(registerAction(this.form.value))
+    this.authService.register(this.form.value).subscribe
   }
 
   get userName() {

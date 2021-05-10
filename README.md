@@ -1,31 +1,34 @@
+##
+https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+
+
 ## 
 ├─ node_modules/
 ├─ src/
       /app
         /auth
-         /components
-          /register
-            register.component.html
-            register.component.scss
-            register-routing.module.ts
+          /components         
+            /register
+              register.component.html
+              register.component.scss
+              register-routing.module.ts
         auth.module.ts
-        /article
-          /article
-            article.component.html
-            article.component.scss
-            article.component.ts
            /comments
            /services
             article.service.ts
            /store
+             actionTypes.ts
+             register.action.ts
            /types
            article.module.ts
         /auth
         /globalFeed
         /shared
-         /modules
-         /feed
-         /services
+          /modules
+          /feed
+          /services
+      /shared
+        /types
       app.component.html
       app.component.ts
       app.module.ts
