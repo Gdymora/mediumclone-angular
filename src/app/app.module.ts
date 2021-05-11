@@ -3,12 +3,14 @@ import {NgModule} from '@angular/core'
 import {StoreModule} from '@ngrx/store'
 import {StoreDevtoolsModule} from '@ngrx/store-devtools'
 import {HttpClientModule} from '@angular/common/http'
+import {EffectsModule} from '@ngrx/effects'
 
 import {AppRoutingModule} from './app-routing.module'
+import {TopBarModule} from 'src/app/shared/modules/topBar/topBar.module'
 import {AppComponent} from './app.component'
 import {AuthModule} from 'src/app/auth/auth.module'
 import {environment} from 'src/environments/environment'
-import {EffectsModule} from '@ngrx/effects'
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,8 @@ import {EffectsModule} from '@ngrx/effects'
       maxAge: 25,
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    TopBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
