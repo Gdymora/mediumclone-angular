@@ -37,4 +37,10 @@ https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#n
 ├─ tsconfig.json
 ├─ tslint.json
 
-##
+## порядок створення:
+- store/types/.interface.ts
+- store/actionTypes.ts
+- store/actions/.action.ts
+- store/effects/.effect.ts
+- store/reduser.ts
+- auth.module.ts
