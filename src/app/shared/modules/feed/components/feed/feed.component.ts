@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core'
+import {Store, select} from '@ngrx/store'
+import {getFeedAction} from 'src/app/shared/modules/feed/store/actions/getFeed.action'
+import {Observable} from 'rxjs'
+import {GetFeedResponseInterface} from 'src/app/shared/modules/feed/types/getFeedResponse.interface'
+import {
+  feedSelector,
+  errorSelector,
+  isLoadingSelector
+} from 'src/app/shared/modules/feed/store/selectors'
 
 @Component({
   selector: 'app-feed',
@@ -6,10 +15,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnInit {
+  @Input('apiUrl') apiUrlProps: string
 
-  constructor() { }
+  feed$: Observable<GetFeedResponseInterface | null>
+  error$: Observable<string | null>
+  isLoading$: Observable<boolean>
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.initializeValues()
+    this.fetchData()
   }
 
+  initializeValues(): void {
+    this.feed$ = this.store.pipe(select(feedSelector))
+    this.error$ = this.store.pipe(select(errorSelector))
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+  }
+
+  fetchData(): void {
+    this.store.dispatch(getFeedAction({url: this.apiUrlProps}))
+  }
 }
