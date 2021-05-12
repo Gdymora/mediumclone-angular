@@ -11,6 +11,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('src/app/auth/auth.module').then((m) => m.AuthModule),
   },
+  { path: 'globalFeed', loadChildren: () => import('./globalFeed/globalFeed.module').then(m => m.GlobalFeedModule) },
 ];
 
 @NgModule({
