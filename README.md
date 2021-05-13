@@ -2,6 +2,10 @@
 https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
 https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
 
+
+##
+npm i query-string
+
 ## 
 ├─ node_modules/
 ├─ src/
